@@ -1,386 +1,532 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SafeStep UG — Privacy-First AI Safety Companion for Children</title>
-  <meta name="description"
-    content="A child-centred digital safety companion prototype detecting cyberbullying and harmful content while preserving privacy. Built for UCC Testbed Hackathon 2026.">
+  <meta name="description" content="A child-centred digital safety companion prototype detecting cyberbullying and harmful content while preserving privacy. Built for UCC Testbed Hackathon 2026.">
+  <meta name="theme-color" content="#0a0a0a">
 
   <!-- Modern Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="bg-grid-overlay"></div>
 
-  <!-- Header -->
-  <header class="app-header">
-    <div class="brand-wrapper">
-      <div class="brand-shield" id="brand-logo" title="SafeStep UG — Protecting Children Online">
-        🛡️
-        <div class="ug-badge" title="Uganda Digital Safety Initiative"></div>
-      </div>
-      <div class="brand-info">
-        <h1>SafeStep UG</h1>
-        <div class="tagline">UCC Testbed Hackathon 2026 • AI for Child Safety</div>
-      </div>
-    </div>
+  <!-- =====================================================================
+       THREE-COLUMN X-STYLE LAYOUT
+       ===================================================================== -->
+  <div class="x-layout">
 
-    <div class="header-badges">
-      <div class="live-pill" id="ai-status-indicator" title="Inference running locally on device">
-        <span class="pulse-dot"></span>
-        <span>Local On-Device AI Active</span>
-      </div>
-    </div>
-
-    <div class="header-actions">
-      <button class="btn-nav btn-highlight" id="btn-start-tour" title="Launch 90-second judge walkthrough">
-        <span>🚀</span>
-        <span>90s Demo Walkthrough</span>
-      </button>
-      <button class="btn-nav" id="btn-open-vault" title="View Encrypted Local Evidence Vault">
-        <span>💾</span>
-        <span>Evidence Vault (<span id="vault-count-badge">0</span>)</span>
-      </button>
-      <button class="btn-nav" id="btn-open-privacy" title="View Privacy & Safeguarding Architecture">
-        <span>🔒</span>
-        <span>Privacy & Safeguarding</span>
-      </button>
-      <button class="btn-nav" id="btn-open-pitch" title="Open 3-Minute Hackathon Pitch Slides">
-        <span>📊</span>
-        <span>3-Min Pitch Deck</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Layout -->
-  <main class="app-layout">
-
-    <!-- LEFT: Mobile Simulator -->
-    <section class="device-container" aria-label="Simulated Mobile Device">
-      <div class="device-controls-bar">
-        <span><strong>Fictional Scenarios:</strong></span>
-        <div class="device-scenarios-selector" id="scenario-selector">
-          <button class="scenario-chip" data-scenario="disagreement">1. Normal Debate</button>
-          <button class="scenario-chip active" data-scenario="bullying">2. Cyberbullying</button>
-          <button class="scenario-chip" data-scenario="coercion">3. Coercion / Threat</button>
-          <button class="scenario-chip" data-scenario="sexual">4. Sexualized Request</button>
-          <button class="scenario-chip" data-scenario="image">5. Image Shield Mock</button>
+    <!-- ===================================================================
+         LEFT SIDEBAR
+         =================================================================== -->
+    <aside class="x-sidebar" role="navigation" aria-label="Main navigation">
+      <!-- Logo -->
+      <div class="x-sidebar-logo">
+        <div class="x-logo-mark" id="brand-logo" title="SafeStep UG">
+          🛡️
+          <div class="ug-badge" title="Uganda Digital Safety Initiative"></div>
         </div>
       </div>
 
-      <!-- Smartphone Chasis -->
-      <div class="phone-frame">
-        <div class="phone-screen">
-          <!-- Top Phone Bar -->
-          <div class="phone-status-bar">
-            <span>09:42</span>
-            <div class="notch"></div>
-            <span>LTE • 98% 🔋</span>
-          </div>
-
-          <!-- Chat App Header -->
-          <div class="chat-app-header">
-            <div class="chat-contact-meta">
-              <div class="contact-avatar" id="contact-avatar">AM</div>
-              <div>
-                <div class="contact-name" id="contact-name">Alex M. (Classmate)</div>
-                <div class="contact-status">Active now</div>
-              </div>
-            </div>
-            <div class="safestep-companion-pill" title="SafeStep is protecting this chat locally">
-              <span>🛡️ SafeStep On</span>
-            </div>
-          </div>
-
-          <!-- Chat Messages Area -->
-          <div class="chat-messages-area" id="chat-messages-feed" role="log" aria-live="polite">
-            <!-- Messages injected dynamically via app.js -->
-          </div>
-
-          <!-- Chat Input Bar -->
-          <div class="chat-input-bar">
-            <input type="text" id="custom-message-input" class="chat-input-field"
-              placeholder="Type a fictional test message..." aria-label="Test message input">
-            <button id="btn-send-message" class="btn-send" title="Send message for local AI classification">➔</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- RIGHT: SafeStep Companion Hub & Intelligence Console -->
-    <section class="companion-hub" aria-label="SafeStep Companion Dashboard">
-
-      <!-- Tabs Navigation -->
-      <nav class="tabs-nav" role="tablist">
-        <button class="tab-btn active" id="tab-btn-hub" role="tab" aria-selected="true" data-tab="tab-content-hub">
-          <span>🛡️</span>
-          <span>Child Safety Hub</span>
-        </button>
-        <button class="tab-btn" id="tab-btn-telemetry" role="tab" aria-selected="false"
-          data-tab="tab-content-telemetry">
-          <span>🔍</span>
-          <span>AI Telemetry & Explainability</span>
-        </button>
-        <button class="tab-btn" id="tab-btn-uganda" role="tab" aria-selected="false" data-tab="tab-content-uganda">
-          <span>🇺🇬</span>
-          <span>Uganda Safeguarding</span>
-        </button>
+      <!-- Navigation Links -->
+      <nav class="x-nav" role="menubar">
+        <a href="#" class="x-nav-item active" role="menuitem" aria-label="Home — Child Safety Hub" id="nav-home">
+          <span class="x-nav-icon">🏠</span>
+          <span class="x-nav-label">Home</span>
+        </a>
+        <a href="#" class="x-nav-item" role="menuitem" aria-label="AI Telemetry" id="nav-explore" data-tab-target="tab-content-telemetry">
+          <span class="x-nav-icon">🔬</span>
+          <span class="x-nav-label">AI Telemetry</span>
+        </a>
+        <a href="#" class="x-nav-item" role="menuitem" aria-label="Uganda Safeguarding" id="nav-notifications" data-tab-target="tab-content-uganda">
+          <span class="x-nav-icon">🇺🇬</span>
+          <span class="x-nav-label">Uganda</span>
+          <span class="x-nav-badge" id="nav-ug-badge">3</span>
+        </a>
+        <a href="#" class="x-nav-item" role="menuitem" aria-label="Evidence Vault" id="nav-vault-link">
+          <span class="x-nav-icon">💾</span>
+          <span class="x-nav-label">Evidence Vault</span>
+          <span class="x-nav-badge" id="vault-count-badge">0</span>
+        </a>
+        <a href="#" class="x-nav-item" role="menuitem" aria-label="Privacy & Safeguarding" id="nav-privacy-link">
+          <span class="x-nav-icon">🔒</span>
+          <span class="x-nav-label">Privacy</span>
+        </a>
+        <a href="#" class="x-nav-item" role="menuitem" aria-label="3-Min Pitch Deck" id="nav-pitch-link">
+          <span class="x-nav-icon">📊</span>
+          <span class="x-nav-label">Pitch Deck</span>
+        </a>
       </nav>
 
-      <!-- TAB 1: Child Safety Hub -->
-      <div class="tab-pane active" id="tab-content-hub">
-        <div class="glass-card">
-          <div class="card-title-row">
-            <h2><span>🧭</span> Child-Centred Safety Companion</h2>
-            <span class="live-pill" id="companion-status-pill">Active & Watching Out</span>
-          </div>
+      <!-- Primary CTA Button -->
+      <button class="x-compose-btn" id="btn-start-tour" title="Launch 90-second judge walkthrough" aria-label="Start 90 second demo walkthrough">
+        <span>🚀</span>
+        <span class="x-compose-label">90s Demo Tour</span>
+      </button>
 
-          <!-- Empathetic Guidance Banner -->
-          <div class="child-guidance-box" id="guidance-box">
-            <div class="guidance-banner">
-              <div class="avatar-empathy" id="companion-emoji">
-                <img src="bear_mascot.jpg" alt="SafeStep Bear Companion" class="bear-mascot-img" draggable="false">
+      <!-- AI Status at Bottom -->
+      <div class="x-sidebar-footer">
+        <div class="x-user-card">
+          <div class="x-user-avatar">
+            <img src="bear_mascot.jpg" alt="SafeStep Bear Companion" class="x-user-avatar-img" draggable="false">
+          </div>
+          <div class="x-user-meta">
+            <div class="x-user-name">SafeStep UG</div>
+            <div class="x-user-handle">
+              <span class="x-pulse-dot" aria-hidden="true"></span>
+              <span id="ai-status-indicator">AI Active · On-Device</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===================================================================
+         CENTER FEED — Main App Content
+         =================================================================== -->
+    <main class="x-center" aria-label="Main content">
+
+      <!-- Sticky Center Header -->
+      <div class="x-center-header" role="banner">
+        <div class="x-center-header-top">
+          <div class="x-header-brand">
+            <div class="x-logo-mark-sm" aria-hidden="true">🛡️</div>
+            <h1 class="x-page-title">SafeStep UG</h1>
+          </div>
+          <div class="x-header-live-pill" id="header-live-pill">
+            <span class="x-pulse-dot" aria-hidden="true"></span>
+            <span>Local On-Device AI Active</span>
+          </div>
+        </div>
+
+        <!-- Scenario Selector as Tabs -->
+        <div class="x-scenario-tabs" id="scenario-selector" role="tablist" aria-label="Select a safety scenario">
+          <button class="x-scenario-tab" data-scenario="disagreement" role="tab" aria-selected="false">1. Normal Debate</button>
+          <button class="x-scenario-tab active" data-scenario="bullying" role="tab" aria-selected="true">2. Cyberbullying</button>
+          <button class="x-scenario-tab" data-scenario="coercion" role="tab" aria-selected="false">3. Coercion</button>
+          <button class="x-scenario-tab" data-scenario="sexual" role="tab" aria-selected="false">4. Sexualized</button>
+          <button class="x-scenario-tab" data-scenario="image" role="tab" aria-selected="false">5. Image Shield</button>
+        </div>
+      </div>
+
+      <!-- Main Feed Area -->
+      <div class="x-feed">
+
+        <!-- ---- DEVICE SIMULATOR CARD ---- -->
+        <article class="x-feed-card x-device-card" aria-label="Simulated mobile device">
+          <div class="x-feed-card-inner">
+            <div class="x-device-header">
+              <div class="x-device-icon" aria-hidden="true">📱</div>
+              <div>
+                <div class="x-device-title">Live Scenario Simulation</div>
+                <div class="x-device-sub">Fictional chat • SafeStep AI running on-device</div>
               </div>
-              <div class="guidance-content">
-                <h3 id="guidance-title">You're in control of your space</h3>
-                <p id="guidance-body">That message may be hurtful or unsafe. Remember: you didn't do anything wrong, and
-                  you don't have to reply. Here are safe choices you can take right now.</p>
+            </div>
+
+            <!-- Phone Frame -->
+            <div class="phone-frame" role="region" aria-label="Simulated smartphone screen">
+              <div class="phone-screen">
+                <!-- Status Bar -->
+                <div class="phone-status-bar">
+                  <span>09:42</span>
+                  <div class="notch" aria-hidden="true"></div>
+                  <span>LTE • 98% 🔋</span>
+                </div>
+
+                <!-- Chat App Header -->
+                <div class="chat-app-header">
+                  <div class="chat-contact-meta">
+                    <div class="contact-avatar" id="contact-avatar" aria-label="Contact avatar">AM</div>
+                    <div>
+                      <div class="contact-name" id="contact-name">Alex M. (Classmate)</div>
+                      <div class="contact-status">Active now</div>
+                    </div>
+                  </div>
+                  <div class="safestep-companion-pill" title="SafeStep is protecting this chat locally" aria-label="SafeStep protection active">
+                    <span>🛡️ SafeStep On</span>
+                  </div>
+                </div>
+
+                <!-- Chat Feed -->
+                <div class="chat-messages-area" id="chat-messages-feed" role="log" aria-live="polite" aria-label="Chat messages">
+                  <!-- Messages injected dynamically via app.js -->
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-bar">
+                  <input type="text" id="custom-message-input" class="chat-input-field"
+                    placeholder="Type a fictional test message..." aria-label="Test message input">
+                  <button id="btn-send-message" class="btn-send" title="Send message for local AI classification" aria-label="Send message">➔</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---- COMPANION HUB TABS ---- -->
+        <article class="x-feed-card x-companion-card" aria-label="SafeStep companion dashboard">
+          <!-- Tab Bar -->
+          <nav class="x-inner-tabs" role="tablist" aria-label="Companion dashboard tabs">
+            <button class="x-inner-tab active" id="tab-btn-hub" role="tab" aria-selected="true" data-tab="tab-content-hub">
+              <span aria-hidden="true">🛡️</span>
+              <span>Child Safety Hub</span>
+            </button>
+            <button class="x-inner-tab" id="tab-btn-telemetry" role="tab" aria-selected="false" data-tab="tab-content-telemetry">
+              <span aria-hidden="true">🔬</span>
+              <span>AI Telemetry</span>
+            </button>
+            <button class="x-inner-tab" id="tab-btn-uganda" role="tab" aria-selected="false" data-tab="tab-content-uganda">
+              <span aria-hidden="true">🇺🇬</span>
+              <span>Uganda</span>
+            </button>
+          </nav>
+
+          <!-- TAB 1: Child Safety Hub -->
+          <div class="tab-pane active" id="tab-content-hub" role="tabpanel" aria-labelledby="tab-btn-hub">
+
+            <div class="x-section-header">
+              <h2 class="x-section-title">🧭 Child-Centred Safety Companion</h2>
+              <span class="x-live-badge" id="companion-status-pill">Active &amp; Watching Out</span>
+            </div>
+
+            <!-- Empathetic Guidance Banner -->
+            <div class="x-guidance-box" id="guidance-box">
+              <div class="x-guidance-inner">
+                <div class="avatar-empathy" id="companion-emoji">
+                  <img src="bear_mascot.jpg" alt="SafeStep Bear Companion" class="bear-mascot-img" draggable="false">
+                </div>
+                <div class="x-guidance-text">
+                  <h3 id="guidance-title">You're in control of your space</h3>
+                  <p id="guidance-body">That message may be hurtful or unsafe. Remember: you didn't do anything wrong, and you don't have to reply. Here are safe choices you can take right now.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Breathing Card -->
+            <div class="breathing-card" id="breathing-card">
+              <h4>Take a Calm Breath Before Deciding</h4>
+              <div class="breathing-circle" id="breathing-circle">Inhale...</div>
+              <p style="font-size: 0.75rem; color: var(--x-text-muted);">Slow down your reaction. Bullying tries to rush you into anger or fear.</p>
+            </div>
+
+            <!-- 4 Action Cards -->
+            <div class="actions-grid">
+              <button class="action-card-btn" id="btn-action-breathe" title="Guided pause and breathing exercise" aria-label="Pause and Breathe exercise">
+                <span class="action-icon" aria-hidden="true">⏸️</span>
+                <span class="action-label">Pause &amp; Breathe</span>
+                <span class="action-desc">Take 30 seconds to calm down before responding.</span>
+              </button>
+
+              <button class="action-card-btn" id="btn-action-mute" title="Mute or block this contact locally" aria-label="Mute or block contact">
+                <span class="action-icon" aria-hidden="true">🔕</span>
+                <span class="action-label">Mute or Block</span>
+                <span class="action-desc">Stop notifications from this contact without drama.</span>
+              </button>
+
+              <button class="action-card-btn" id="btn-action-evidence" title="Secure local evidence record" aria-label="Save local evidence">
+                <span class="action-icon" aria-hidden="true">💾</span>
+                <span class="action-label">Save Local Evidence</span>
+                <span class="action-desc">Store encrypted timestamp &amp; snippet locally on device.</span>
+              </button>
+
+              <button class="action-card-btn action-primary" id="btn-action-adult" title="Reach out to a designated trusted adult" aria-label="Talk to a trusted adult">
+                <span class="action-icon" aria-hidden="true">🤝</span>
+                <span class="action-label">Talk to Someone I Trust</span>
+                <span class="action-desc">Preview what to share and get advice from a trusted adult.</span>
+              </button>
+            </div>
+
+            <!-- Dismiss / Vault Bar -->
+            <div class="x-action-footer">
+              <span>Is this a mistake? Just friendly teasing?</span>
+              <div class="x-action-footer-btns">
+                <button class="btn-ghost-sm" id="btn-false-alarm" title="Mark this alert as friendly teasing to calibrate model">Dismiss as Teasing</button>
+                <button class="btn-ghost-sm x-btn-blue" id="btn-view-vault" title="View local encrypted evidence vault">📂 Vault (<span id="vault-count">0</span>)</button>
               </div>
             </div>
           </div>
 
-          <!-- Breathing Exercise Box (Toggled) -->
-          <div class="breathing-card" id="breathing-card">
-            <h4>Take a Calm Breath Before Deciding</h4>
-            <div class="breathing-circle" id="breathing-circle">Inhale...</div>
-            <p style="font-size: 0.75rem; color: #94a3b8;">Slow down your reaction. Bullying tries to rush you into
-              anger or fear.</p>
-          </div>
+          <!-- TAB 2: AI Telemetry -->
+          <div class="tab-pane" id="tab-content-telemetry" role="tabpanel" aria-labelledby="tab-btn-telemetry" style="display:none;">
 
-          <!-- 4 User-Controlled Next-Step Actions -->
-          <div class="actions-grid">
-            <button class="action-card-btn" id="btn-action-breathe" title="Guided pause and breathing exercise">
-              <span class="action-icon">⏸️</span>
-              <span class="action-label">Pause & Breathe</span>
-              <span class="action-desc">Take 30 seconds to calm down before responding.</span>
-            </button>
-
-            <button class="action-card-btn" id="btn-action-mute" title="Mute or block this contact locally">
-              <span class="action-icon">🔕</span>
-              <span class="action-label">Mute or Block</span>
-              <span class="action-desc">Stop notifications from this contact without drama.</span>
-            </button>
-
-            <button class="action-card-btn" id="btn-action-evidence" title="Secure local evidence record">
-              <span class="action-icon">💾</span>
-              <span class="action-label">Save Local Evidence</span>
-              <span class="action-desc">Store encrypted timestamp & snippet locally on device.</span>
-            </button>
-
-            <button class="action-card-btn action-primary" id="btn-action-adult"
-              title="Reach out to a designated trusted adult">
-              <span class="action-icon">🤝</span>
-              <span class="action-label">Talk to Someone I Trust</span>
-              <span class="action-desc">Preview what to share and get advice from a trusted adult.</span>
-            </button>
-          </div>
-
-          <!-- False Alarm / Dismiss Bar & Local Vault Access -->
-          <div class="evidence-status-bar">
-            <span>Is this a mistake? Just friendly teasing?</span>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn-ghost-sm" id="btn-false-alarm"
-                title="Mark this alert as friendly teasing to calibrate model">Dismiss as Friendly Teasing</button>
-              <button class="btn-ghost-sm" id="btn-view-vault" style="color: #38bdf8;"
-                title="View local encrypted evidence vault">📂 Open Device Vault (<span
-                  id="vault-count">0</span>)</button>
+            <div class="x-section-header">
+              <h2 class="x-section-title">🔬 On-Device AI Telemetry</h2>
+              <span class="x-live-badge">Confidence &amp; Uncertainty</span>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- TAB 2: AI Telemetry & Explainability -->
-      <div class="tab-pane" id="tab-content-telemetry" style="display: none;">
-        <div class="glass-card">
-          <div class="card-title-row">
-            <h2><span>🔬</span> Explainable On-Device AI Telemetry</h2>
-            <span class="live-pill">Confidence & Uncertainty</span>
-          </div>
+            <div class="telemetry-grid">
+              <div class="telemetry-tile">
+                <div class="tile-label">Classification State</div>
+                <div class="tile-value" id="telemetry-category" style="color: var(--x-warn);">Bullying Concern</div>
+              </div>
+              <div class="telemetry-tile">
+                <div class="tile-label">Signal Confidence</div>
+                <div class="tile-value" id="telemetry-confidence">84.2%</div>
+              </div>
+              <div class="telemetry-tile">
+                <div class="tile-label">Uncertainty Margin</div>
+                <div class="tile-value" id="telemetry-uncertainty">± 15.8% (Advisory)</div>
+              </div>
+              <div class="telemetry-tile">
+                <div class="tile-label">Processing Location</div>
+                <div class="tile-value" style="color: var(--x-safe);">On-Device (0 bytes sent)</div>
+              </div>
+            </div>
 
-          <div class="telemetry-grid">
-            <div class="telemetry-tile">
-              <div class="tile-label">Classification State</div>
-              <div class="tile-value" id="telemetry-category" style="color: #f59e0b;">Bullying Concern</div>
+            <!-- Token Analysis -->
+            <div class="token-inspect-box">
+              <div style="margin-bottom: 8px; color: var(--x-text-muted); font-size: 0.78rem;">Triggered Heuristic Signals &amp; Weighted Tokens:</div>
+              <div id="telemetry-tokens-container">
+                <span class="token-tag risk-med">"useless" (+0.42)</span>
+                <span class="token-tag risk-med">"no one wants you" (+0.55)</span>
+                <span class="token-tag neutral">group project</span>
+                <span class="token-tag neutral">Alex M.</span>
+              </div>
             </div>
-            <div class="telemetry-tile">
-              <div class="tile-label">Signal Confidence</div>
-              <div class="tile-value" id="telemetry-confidence">84.2%</div>
-            </div>
-            <div class="telemetry-tile">
-              <div class="tile-label">Uncertainty Margin</div>
-              <div class="tile-value" id="telemetry-uncertainty">± 15.8% (Advisory)</div>
-            </div>
-            <div class="telemetry-tile">
-              <div class="tile-label">Processing Location</div>
-              <div class="tile-value" style="color: #34d399;">On-Device (0 bytes sent)</div>
-            </div>
-          </div>
 
-          <!-- Token Analysis -->
-          <div class="token-inspect-box">
-            <div style="margin-bottom: 8px; color: #94a3b8; font-size: 0.78rem;">Triggered Heuristic Signals & Weighted
-              Tokens:</div>
-            <div id="telemetry-tokens-container">
-              <span class="token-tag risk-med">"useless" (+0.42)</span>
-              <span class="token-tag risk-med">"no one wants you" (+0.55)</span>
-              <span class="token-tag neutral">group project</span>
-              <span class="token-tag neutral">Alex M.</span>
+            <!-- Sensitivity Slider -->
+            <div class="x-slider-card">
+              <div class="x-slider-header">
+                <span>Advisory Sensitivity Threshold:</span>
+                <span id="slider-threshold-val" class="x-slider-val">Balanced (0.75)</span>
+              </div>
+              <input type="range" id="ai-sensitivity-slider" min="0.50" max="0.95" step="0.05" value="0.75"
+                aria-label="Advisory sensitivity threshold" style="width:100%; accent-color: var(--x-accent); cursor: pointer;">
+              <div class="x-slider-labels">
+                <span>Sensitive (higher recall)</span>
+                <span>Conservative (fewer false alarms)</span>
+              </div>
+            </div>
+
+            <!-- Luganda Lab -->
+            <div class="x-dialect-lab">
+              <div class="x-dialect-lab-header">
+                <h4>🇺🇬 Luganda &amp; Dialect Evaluation Lab</h4>
+                <span class="x-live-badge x-badge-gold">Synthetic Benchmark</span>
+              </div>
+              <p style="font-size: 0.72rem; color: var(--x-text-muted); margin-bottom: 10px;">
+                Per Hackathon Brief Section 2: <em>"Do not claim language coverage until it has been evaluated."</em>
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-safe" title="Benign Luganda sports banter">
+                  ⚽ "Lwaki tewampadde mupiira?"
+                </button>
+                <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-bully" title="Luganda exclusionary bullying">
+                  ⚠️ "Oli musiru nnyo mu kibiina"
+                </button>
+                <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-threat" title="Luganda financial extortion threat">
+                  🚨 "Mpa emitwalo ku Mobile Money"
+                </button>
+              </div>
+            </div>
+
+            <div class="arch-callout" style="margin-top: 14px;">
+              <strong>Key Safeguarding Principle:</strong> Model scores are treated as <em>signals</em>, never as definitive verdicts or proof of guilt. SafeStep UG communicates uncertainty clearly.
             </div>
           </div>
 
-          <!-- Interactive Threshold Slider -->
-          <div
-            style="margin-top: 14px; padding: 12px 14px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 0.78rem; font-weight: 600; color: #f8fafc;">Advisory Sensitivity Threshold:</span>
-              <span id="slider-threshold-val" style="font-size: 0.78rem; color: #38bdf8; font-weight: 700;">Balanced
-                (0.75)</span>
-            </div>
-            <input type="range" id="ai-sensitivity-slider" min="0.50" max="0.95" step="0.05" value="0.75"
-              style="width: 100%; accent-color: var(--accent-cyan); cursor: pointer;">
-            <div
-              style="display: flex; justify-content: space-between; font-size: 0.66rem; color: #94a3b8; margin-top: 4px;">
-              <span>Sensitive (Catches subtle insults, higher false alarms)</span>
-              <span>Conservative (Minimizes false alarms)</span>
-            </div>
-          </div>
+          <!-- TAB 3: Uganda Safeguarding -->
+          <div class="tab-pane" id="tab-content-uganda" role="tabpanel" aria-labelledby="tab-btn-uganda" style="display:none;">
 
-          <!-- Ugandan Languages & Dialect Evaluation Lab -->
-          <div
-            style="margin-top: 14px; padding: 12px 14px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <h4 style="font-size: 0.82rem; color: #fbbf24; display: flex; align-items: center; gap: 6px;">
-                <span>🇺🇬</span> Luganda & Dialect Evaluation Lab
-              </h4>
-              <span class="live-pill"
-                style="border-color: rgba(251, 191, 36, 0.4); color: #fde68a; font-size: 0.65rem;">Synthetic
-                Benchmark</span>
+            <div class="x-section-header">
+              <h2 class="x-section-title">🇺🇬 Uganda Ecosystem Integration</h2>
+              <span class="x-live-badge">UCC &amp; UICT Nakawa</span>
             </div>
-            <p style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 8px;">
-              Per Hackathon Brief Section 2: <em>"Do not claim language coverage until it has been evaluated."</em> Test
-              how SafeStep explains dialect uncertainty:
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-safe"
-                title="Benign Luganda sports banter">
-                ⚽ "Lwaki tewampadde mupiira?"
-              </button>
-              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-bully"
-                title="Luganda exclusionary bullying">
-                ⚠️ "Oli musiru nnyo mu kibiina"
-              </button>
-              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-threat"
-                title="Luganda financial extortion threat">
-                🚨 "Mpa emitwalo ku Mobile Money"
-              </button>
-            </div>
-          </div>
 
-          <div class="arch-callout" style="margin-top: 14px;">
-            <strong>Key Safeguarding Principle:</strong> Model scores are treated as <em>signals</em>, never as
-            definitive verdicts or proof of guilt. SafeStep UG communicates uncertainty clearly to prevent harmful false
-            alarms or panic.
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 3: Uganda Safeguarding & Context -->
-      <div class="tab-pane" id="tab-content-uganda" style="display: none;">
-        <div class="glass-card">
-          <div class="card-title-row">
-            <h2><span>🇺🇬</span> Uganda Ecosystem Integration</h2>
-            <span class="live-pill">UCC & UICT Nakawa</span>
-          </div>
-
-          <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 14px;">
-            <p style="margin-bottom: 8px;">
-              Engineered specifically for the <strong>UCC Testbed Hackathon 2026</strong> theme: <em>"Innovating safer
-                cyber spaces for children through AI"</em>.
+            <p style="font-size: 0.84rem; color: var(--x-text-secondary); margin-bottom: 14px; line-height: 1.6;">
+              Engineered for the <strong>UCC Testbed Hackathon 2026</strong> theme: <em>"Innovating safer cyber spaces for children through AI"</em>.
             </p>
 
-            <!-- Legal & Regulatory Matrix Table -->
-            <table
-              style="width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.75rem; background: rgba(15, 23, 42, 0.4); border-radius: var(--radius-sm);">
-              <thead>
-                <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: #94a3b8;">
-                  <th style="padding: 6px 8px;">Uganda Legal Framework</th>
-                  <th style="padding: 6px 8px;">SafeStep UG Design Implementation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">Data Protection & Privacy Act 2019
-                  </td>
-                  <td style="padding: 6px 8px; color: #cbd5e1;">Strict Section 3 data minimisation: on-device
-                    evaluation, zero cloud retention.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">Computer Misuse (Amendment) Act 2022
-                  </td>
-                  <td style="padding: 6px 8px; color: #cbd5e1;">Safeguards against cyber harassment & extortion without
-                    intrusive spyware.</td>
-                </tr>
-                <tr>
-                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">UCC Child Online Protection (COP)</td>
-                  <td style="padding: 6px 8px; color: #cbd5e1;">Empowers child agency, dignified non-shaming alerts &
-                    Sauti 116 escalation.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <!-- Legal Matrix Table -->
+            <div class="x-table-wrapper">
+              <table class="x-legal-table">
+                <thead>
+                  <tr>
+                    <th>Uganda Legal Framework</th>
+                    <th>SafeStep UG Implementation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="x-td-key">Data Protection &amp; Privacy Act 2019</td>
+                    <td>Strict Section 3 data minimisation: on-device evaluation, zero cloud retention.</td>
+                  </tr>
+                  <tr>
+                    <td class="x-td-key">Computer Misuse (Amendment) Act 2022</td>
+                    <td>Safeguards against cyber harassment &amp; extortion without intrusive spyware.</td>
+                  </tr>
+                  <tr>
+                    <td class="x-td-key">UCC Child Online Protection (COP)</td>
+                    <td>Empowers child agency, dignified non-shaming alerts &amp; Sauti 116 escalation.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <div class="evidence-status-bar"
-            style="background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.3);">
-            <span style="color: #fde68a; font-size: 0.8rem;">📞 National Child Helpline Uganda: <strong>Toll-free
-                116</strong></span>
-            <button class="btn-ghost-sm" id="btn-call-sauti-demo"
-              style="background: rgba(251, 191, 36, 0.2); border-color: #fbbf24; color: #fff;">Open Sauti 116 Helpline
-              Simulator</button>
+            <div class="x-sauti-bar">
+              <span>📞 National Child Helpline Uganda: <strong>Toll-free 116</strong></span>
+              <button class="btn-ghost-sm x-btn-gold" id="btn-call-sauti-demo">Open Sauti 116 Simulator</button>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /.x-feed -->
+    </main>
+
+    <!-- ===================================================================
+         RIGHT SIDEBAR
+         =================================================================== -->
+    <aside class="x-right-sidebar" role="complementary" aria-label="Search and trending">
+
+      <!-- Search Bar -->
+      <div class="x-search-box" role="search">
+        <span class="x-search-icon" aria-hidden="true">🔍</span>
+        <input type="text" class="x-search-input" placeholder="Search SafeStep scenarios…" aria-label="Search scenarios">
+      </div>
+
+      <!-- AI Status Card -->
+      <div class="x-right-card">
+        <h3 class="x-right-card-title">🤖 AI Engine Status</h3>
+        <div class="x-status-list">
+          <div class="x-status-row">
+            <span class="x-status-label">Processing Mode</span>
+            <span class="x-status-val x-val-safe">On-Device Only</span>
+          </div>
+          <div class="x-status-row">
+            <span class="x-status-label">Cloud Uploads</span>
+            <span class="x-status-val x-val-safe">0 bytes</span>
+          </div>
+          <div class="x-status-row">
+            <span class="x-status-label">Privacy Layer</span>
+            <span class="x-status-val x-val-safe">Active</span>
+          </div>
+          <div class="x-status-row">
+            <span class="x-status-label">Current Scenario</span>
+            <span class="x-status-val" id="sidebar-current-scenario">Cyberbullying</span>
           </div>
         </div>
       </div>
 
-    </section>
-  </main>
+      <!-- Trending / Key Stats -->
+      <div class="x-right-card">
+        <h3 class="x-right-card-title">📊 Hackathon Brief Coverage</h3>
+        <div class="x-trending-list">
+          <div class="x-trending-item">
+            <div class="x-trending-rank">01</div>
+            <div class="x-trending-content">
+              <div class="x-trending-topic">On-Device AI Classifier</div>
+              <div class="x-trending-sub">5 fictional scenarios · Tri-state output</div>
+            </div>
+            <div class="x-trending-check">✅</div>
+          </div>
+          <div class="x-trending-item">
+            <div class="x-trending-rank">02</div>
+            <div class="x-trending-content">
+              <div class="x-trending-topic">Evidence Vault</div>
+              <div class="x-trending-sub">SHA-256 tamper seal · Local only</div>
+            </div>
+            <div class="x-trending-check">✅</div>
+          </div>
+          <div class="x-trending-item">
+            <div class="x-trending-rank">03</div>
+            <div class="x-trending-content">
+              <div class="x-trending-topic">Trusted Adult Escalation</div>
+              <div class="x-trending-sub">Transparent preview · Child confirms</div>
+            </div>
+            <div class="x-trending-check">✅</div>
+          </div>
+          <div class="x-trending-item">
+            <div class="x-trending-rank">04</div>
+            <div class="x-trending-content">
+              <div class="x-trending-topic">Sauti 116 Integration</div>
+              <div class="x-trending-sub">Uganda national child helpline</div>
+            </div>
+            <div class="x-trending-check">✅</div>
+          </div>
+          <div class="x-trending-item">
+            <div class="x-trending-rank">05</div>
+            <div class="x-trending-content">
+              <div class="x-trending-topic">Luganda Dialect Lab</div>
+              <div class="x-trending-sub">Synthetic benchmark · Transparent limits</div>
+            </div>
+            <div class="x-trending-check">✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="x-right-card">
+        <h3 class="x-right-card-title">⚡ Quick Actions</h3>
+        <div class="x-quick-actions">
+          <button class="x-quick-btn" id="btn-open-vault" aria-label="Open Evidence Vault">
+            <span aria-hidden="true">💾</span> Evidence Vault
+            <span class="x-quick-badge" id="vault-count-badge-r">0</span>
+          </button>
+          <button class="x-quick-btn" id="btn-open-privacy" aria-label="Open Privacy & Safeguarding">
+            <span aria-hidden="true">🔒</span> Privacy &amp; Safeguarding
+          </button>
+          <button class="x-quick-btn" id="btn-open-pitch" aria-label="Open 3-Minute Pitch Deck">
+            <span aria-hidden="true">📊</span> 3-Min Pitch Deck
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer Note -->
+      <div class="x-right-footer">
+        <p>Built for <strong>UCC Testbed Hackathon 2026</strong> · UICT Nakawa</p>
+        <p>SafeStep UG — Privacy-First AI for Uganda's Children ❤️</p>
+      </div>
+
+    </aside><!-- /.x-right-sidebar -->
+
+  </div><!-- /.x-layout -->
+
+  <!-- Mobile Bottom Nav (hidden on desktop) -->
+  <nav class="x-mobile-nav" role="navigation" aria-label="Mobile navigation">
+    <button class="x-mobile-nav-item active" id="mob-nav-home" aria-label="Home">
+      <span aria-hidden="true">🏠</span>
+      <span>Home</span>
+    </button>
+    <button class="x-mobile-nav-item" id="mob-nav-explore" aria-label="AI Telemetry">
+      <span aria-hidden="true">🔬</span>
+      <span>Telemetry</span>
+    </button>
+    <button class="x-mobile-nav-item x-mobile-compose" id="mob-nav-tour" aria-label="Start demo tour">
+      <span aria-hidden="true">🚀</span>
+    </button>
+    <button class="x-mobile-nav-item" id="mob-nav-vault" aria-label="Evidence vault">
+      <span aria-hidden="true">💾</span>
+      <span>Vault</span>
+    </button>
+    <button class="x-mobile-nav-item" id="mob-nav-uganda" aria-label="Uganda safeguarding">
+      <span aria-hidden="true">🇺🇬</span>
+      <span>Uganda</span>
+    </button>
+  </nav>
 
   <!-- ==========================================================================
        MODAL 1: Trusted Adult Escalation Flow (Child in Full Control)
        ========================================================================== -->
-  <div class="modal-backdrop" id="modal-trusted-adult" role="dialog" aria-modal="true"
-    aria-labelledby="adult-modal-title">
+  <div class="modal-backdrop" id="modal-trusted-adult" role="dialog" aria-modal="true" aria-labelledby="adult-modal-title">
     <div class="modal-container">
       <div class="modal-header">
         <h3 id="adult-modal-title"><span>🤝</span> Connect with a Trusted Adult</h3>
         <button class="btn-close-modal" id="btn-close-adult-modal" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="margin-bottom: 14px; font-size: 0.85rem; color: #94a3b8;">
-          You choose who to speak with. SafeStep UG never silently shares your chats with anyone without your clear
-          confirmation.
+        <p style="margin-bottom: 14px; font-size: 0.85rem; color: var(--x-text-muted);">
+          You choose who to speak with. SafeStep UG never silently shares your chats with anyone without your clear confirmation.
         </p>
 
         <!-- Step 1: Adult Selection -->
-        <div style="font-weight: 600; font-size: 0.82rem; margin-bottom: 8px; color: #f8fafc;">Select Who to Reach Out
-          To:</div>
+        <div style="font-weight: 600; font-size: 0.82rem; margin-bottom: 8px; color: var(--x-text-primary);">Select Who to Reach Out To:</div>
         <div class="adult-selection-list" id="adult-selection-list">
           <div class="adult-option selected" data-adult="aunt">
             <div class="adult-icon-badge">👩🏾</div>
@@ -405,7 +551,7 @@
           </div>
         </div>
 
-        <!-- Step 2: Transparent Preview (No surprises!) -->
+        <!-- Step 2: Transparent Preview -->
         <div class="preview-disclosure-card">
           <h4><span>👁️</span> Exactly What Will Be Shared (Transparent Preview)</h4>
           <div class="preview-item">
@@ -421,7 +567,7 @@
             <span class="preview-val">Alex M.</span>
           </div>
           <div class="preview-item">
-            <span class="preview-label">Time & Date:</span>
+            <span class="preview-label">Time &amp; Date:</span>
             <span class="preview-val">Today, 09:42 AM</span>
           </div>
           <div class="preview-item">
@@ -432,13 +578,12 @@
 
         <div class="privacy-guarantee-note">
           <span>🔒</span>
-          <span><strong>Privacy Guarantee:</strong> Only this single message snippet is shared. None of your other
-            personal chats, photos, or browsing history will ever be accessed.</span>
+          <span><strong>Privacy Guarantee:</strong> Only this single message snippet is shared. None of your other personal chats, photos, or browsing history will ever be accessed.</span>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" id="btn-cancel-adult-modal">Cancel</button>
-        <button class="btn-primary" id="btn-confirm-send-adult">Confirm & Send Request (Demo)</button>
+        <button class="btn-primary" id="btn-confirm-send-adult">Confirm &amp; Send Request (Demo)</button>
       </div>
     </div>
   </div>
@@ -449,49 +594,47 @@
   <div class="modal-backdrop" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
     <div class="modal-container">
       <div class="modal-header">
-        <h3 id="privacy-modal-title"><span>🔒</span> Privacy & Safeguarding Architecture</h3>
+        <h3 id="privacy-modal-title"><span>🔒</span> Privacy &amp; Safeguarding Architecture</h3>
         <button class="btn-close-modal" id="btn-close-privacy-modal" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div style="font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
-          <h4 style="color: #38bdf8; margin-bottom: 8px;">SafeStep UG vs. Invasive Surveillance</h4>
+        <div style="font-size: 0.88rem; line-height: 1.5; color: var(--x-text-secondary);">
+          <h4 style="color: var(--x-accent); margin-bottom: 8px;">SafeStep UG vs. Invasive Surveillance</h4>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.78rem;">
             <thead>
-              <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
-                <th style="padding: 8px 4px; color: #94a3b8;">Principle</th>
-                <th style="padding: 8px 4px; color: #f43f5e;">Invasive Spyware</th>
-                <th style="padding: 8px 4px; color: #34d399;">SafeStep UG</th>
+              <tr style="border-bottom: 1px solid var(--x-border); text-align: left;">
+                <th style="padding: 8px 4px; color: var(--x-text-muted);">Principle</th>
+                <th style="padding: 8px 4px; color: var(--x-danger);">Invasive Spyware</th>
+                <th style="padding: 8px 4px; color: var(--x-safe);">SafeStep UG</th>
               </tr>
             </thead>
             <tbody>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <tr style="border-bottom: 1px solid var(--x-border-subtle);">
                 <td style="padding: 8px 4px; font-weight: 600;">Message Access</td>
                 <td style="padding: 8px 4px; color: #fda4af;">Copies all chats to cloud server</td>
                 <td style="padding: 8px 4px; color: #a7f3d0;">Evaluated locally on-device</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <tr style="border-bottom: 1px solid var(--x-border-subtle);">
                 <td style="padding: 8px 4px; font-weight: 600;">Data Retention</td>
                 <td style="padding: 8px 4px; color: #fda4af;">Permanent central database</td>
                 <td style="padding: 8px 4px; color: #a7f3d0;">Zero retention by default</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <tr style="border-bottom: 1px solid var(--x-border-subtle);">
                 <td style="padding: 8px 4px; font-weight: 600;">Parent Sharing</td>
                 <td style="padding: 8px 4px; color: #fda4af;">Silent forwarding without child notice</td>
-                <td style="padding: 8px 4px; color: #a7f3d0;">Child selects recipient & previews snippet</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Child selects recipient &amp; previews snippet</td>
               </tr>
               <tr>
-                <td style="padding: 8px 4px; font-weight: 600;">Tone & Dignity</td>
-                <td style="padding: 8px 4px; color: #fda4af;">Punitive & alarmist alerts</td>
-                <td style="padding: 8px 4px; color: #a7f3d0;">Calm, non-shaming choices & guidance</td>
+                <td style="padding: 8px 4px; font-weight: 600;">Tone &amp; Dignity</td>
+                <td style="padding: 8px 4px; color: #fda4af;">Punitive &amp; alarmist alerts</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Calm, non-shaming choices &amp; guidance</td>
               </tr>
             </tbody>
           </table>
 
-          <h4 style="color: #38bdf8; margin-bottom: 6px;">Uganda Data Protection Compliance</h4>
+          <h4 style="color: var(--x-accent); margin-bottom: 6px;">Uganda Data Protection Compliance</h4>
           <p style="font-size: 0.8rem; margin-bottom: 12px;">
-            In full compliance with Uganda's <em>Data Protection and Privacy Act 2019</em>, SafeStep UG implements
-            strict data minimisation: no names, contacts, GPS coordinates, or unflagged message contents are logged or
-            transmitted.
+            In full compliance with Uganda's <em>Data Protection and Privacy Act 2019</em>, SafeStep UG implements strict data minimisation: no names, contacts, GPS coordinates, or unflagged message contents are logged or transmitted.
           </p>
         </div>
       </div>
@@ -511,14 +654,12 @@
         <button class="btn-close-modal" id="btn-close-pitch-modal" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-
         <div class="slide-content-box" id="pitch-slide-container">
           <!-- Slide injected dynamically -->
         </div>
-
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
           <button class="btn-secondary" id="btn-prev-slide">◀ Previous Slide</button>
-          <span style="font-size: 0.8rem; color: #94a3b8;" id="slide-tracker">Slide 1 of 6</span>
+          <span style="font-size: 0.8rem; color: var(--x-text-muted);" id="slide-tracker">Slide 1 of 6</span>
           <button class="btn-primary" id="btn-next-slide">Next Slide ▶</button>
         </div>
       </div>
@@ -528,8 +669,7 @@
   <!-- ==========================================================================
        MODAL 4: Encrypted Local Evidence Vault
        ========================================================================== -->
-  <div class="modal-backdrop" id="modal-evidence-vault" role="dialog" aria-modal="true"
-    aria-labelledby="vault-modal-title">
+  <div class="modal-backdrop" id="modal-evidence-vault" role="dialog" aria-modal="true" aria-labelledby="vault-modal-title">
     <div class="modal-container" style="max-width: 650px;">
       <div class="modal-header">
         <h3 id="vault-modal-title"><span>💾</span> Encrypted Local Evidence Vault</h3>
@@ -537,14 +677,10 @@
       </div>
       <div class="modal-body">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px;">
-          <p style="font-size: 0.78rem; color: #94a3b8; margin: 0;">
-            Immutable incident records stored strictly in sandboxed local device storage. Zero bytes transmitted to
-            cloud.
+          <p style="font-size: 0.78rem; color: var(--x-text-muted); margin: 0;">
+            Immutable incident records stored strictly in sandboxed local device storage. Zero bytes transmitted to cloud.
           </p>
-          <span class="live-pill"
-            style="color: #34d399; font-size: 0.68rem; border-color: rgba(52, 211, 153, 0.3); white-space: nowrap;">
-            🔒 Sandboxed On-Device
-          </span>
+          <span class="x-live-badge x-badge-safe" style="white-space: nowrap;">🔒 Sandboxed On-Device</span>
         </div>
 
         <div id="vault-items-container" class="vault-items-list">
@@ -553,8 +689,7 @@
 
         <div class="privacy-guarantee-note" style="margin-top: 14px;">
           <span>🛡️</span>
-          <span><strong>Chain-of-Custody Integrity:</strong> Each saved record generates a SHA-256 tamper-evident hash
-            to assist safeguarding professionals and legal counselors while preserving child privacy.</span>
+          <span><strong>Chain-of-Custody Integrity:</strong> Each saved record generates a SHA-256 tamper-evident hash to assist safeguarding professionals and legal counselors while preserving child privacy.</span>
         </div>
       </div>
       <div class="modal-footer" style="justify-content: space-between;">
@@ -579,36 +714,30 @@
       <div class="modal-body">
         <div class="sauti-call-card">
           <div class="sauti-pulse-avatar">📞</div>
-          <h4 style="color: #fbbf24; font-size: 1.05rem; margin-bottom: 4px;">Connected to Sauti 116 (Toll-Free)</h4>
-          <p style="font-size: 0.76rem; color: #cbd5e1;">Uganda Ministry of Gender, Labour & Social Development Child
-            Helpline</p>
+          <h4 style="color: var(--x-gold); font-size: 1.05rem; margin-bottom: 4px;">Connected to Sauti 116 (Toll-Free)</h4>
+          <p style="font-size: 0.76rem; color: var(--x-text-secondary);">Uganda Ministry of Gender, Labour &amp; Social Development Child Helpline</p>
         </div>
 
         <div class="sauti-dialog-box">
           <div class="sauti-dialog-step">
             <div class="sauti-icon-indicator">1</div>
             <div>
-              <strong style="color: #fbbf24;">Counselor Reassurance:</strong>
-              <div style="color: #e2e8f0; margin-top: 2px;">"Hello, this is Sister Grace at Sauti 116. You are in a
-                safe, confidential space. Whatever has happened online, you are not in trouble and you will not lose
-                your device."</div>
+              <strong style="color: var(--x-gold);">Counselor Reassurance:</strong>
+              <div style="color: var(--x-text-secondary); margin-top: 2px;">"Hello, this is Sister Grace at Sauti 116. You are in a safe, confidential space. Whatever has happened online, you are not in trouble and you will not lose your device."</div>
             </div>
           </div>
           <div class="sauti-dialog-step">
             <div class="sauti-icon-indicator">2</div>
             <div>
-              <strong style="color: #38bdf8;">Safeguarding Assessment:</strong>
-              <div style="color: #e2e8f0; margin-top: 2px;">"If someone is demanding money, threatening to share private
-                photos, or bullying you, we can step in and guide your school or family safely without exposing you."
-              </div>
+              <strong style="color: var(--x-accent);">Safeguarding Assessment:</strong>
+              <div style="color: var(--x-text-secondary); margin-top: 2px;">"If someone is demanding money, threatening to share private photos, or bullying you, we can step in and guide your school or family safely without exposing you."</div>
             </div>
           </div>
           <div class="sauti-dialog-step">
             <div class="sauti-icon-indicator">3</div>
             <div>
-              <strong style="color: #34d399;">Child Next Steps:</strong>
-              <div style="color: #e2e8f0; margin-top: 2px;">"Keep your evidence saved locally. Do not send any money. We
-                are here 24/7 on toll-free 116 across all telecom networks in Uganda (MTN, Airtel)."</div>
+              <strong style="color: var(--x-safe);">Child Next Steps:</strong>
+              <div style="color: var(--x-text-secondary); margin-top: 2px;">"Keep your evidence saved locally. Do not send any money. We are here 24/7 on toll-free 116 across all telecom networks in Uganda (MTN, Airtel)."</div>
             </div>
           </div>
         </div>
@@ -620,20 +749,106 @@
   </div>
 
   <!-- 90-Second Walkthrough Floating Bar -->
-  <div class="walkthrough-banner" id="walkthrough-bar">
+  <div class="walkthrough-banner" id="walkthrough-bar" role="status" aria-live="polite">
     <span class="tour-step-counter" id="tour-counter">Step 1/5</span>
     <span class="tour-message" id="tour-message">Fictional child receives a hurtful message in chat...</span>
     <div class="tour-controls">
       <button class="btn-ghost-sm" id="btn-tour-next">Next Step ➔</button>
-      <button class="btn-ghost-sm" id="btn-tour-exit" style="color: #94a3b8;">Exit</button>
+      <button class="btn-ghost-sm" id="btn-tour-exit" style="color: var(--x-text-muted);">Exit</button>
     </div>
   </div>
 
   <!-- Toast Container -->
-  <div id="toast-container" aria-live="polite"></div>
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <!-- Application Logic -->
+  <!-- Application Logic (unchanged) -->
   <script src="app.js"></script>
+
+  <!-- Sidebar nav wiring (new navigation layer — doesn't touch app.js IDs) -->
+  <script>
+    // Wire sidebar nav items to tab switching
+    document.querySelectorAll('.x-nav-item[data-tab-target]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = link.dataset.tabTarget;
+        document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+        const target = document.getElementById(targetId);
+        if (target) target.style.display = 'block';
+        // Update inner tab active state
+        document.querySelectorAll('.x-inner-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.tab === targetId);
+          t.setAttribute('aria-selected', t.dataset.tab === targetId);
+        });
+        document.querySelectorAll('.x-nav-item').forEach(n => n.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    // Home nav resets to hub tab
+    document.getElementById('nav-home').addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+      const hub = document.getElementById('tab-content-hub');
+      if (hub) hub.style.display = 'block';
+      document.querySelectorAll('.x-inner-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === 'tab-content-hub');
+        t.setAttribute('aria-selected', t.dataset.tab === 'tab-content-hub');
+      });
+      document.querySelectorAll('.x-nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('nav-home').classList.add('active');
+    });
+
+    // Right sidebar vault/privacy/pitch buttons (duplicate the existing btn- ids would clash — use proxy)
+    document.getElementById('btn-open-vault') && document.getElementById('btn-open-vault').addEventListener('click', () => {
+      document.querySelector('[id="btn-open-vault"]').click && null; // app.js handles this
+    });
+
+    // Mobile nav wiring
+    document.getElementById('mob-nav-tour').addEventListener('click', () => {
+      document.getElementById('btn-start-tour').click();
+    });
+    document.getElementById('mob-nav-vault').addEventListener('click', () => {
+      document.getElementById('btn-open-vault').click();
+    });
+    document.getElementById('mob-nav-explore').addEventListener('click', () => {
+      document.getElementById('tab-btn-telemetry').click();
+      document.querySelectorAll('.x-mobile-nav-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('mob-nav-explore').classList.add('active');
+    });
+    document.getElementById('mob-nav-uganda').addEventListener('click', () => {
+      document.getElementById('tab-btn-uganda').click();
+      document.querySelectorAll('.x-mobile-nav-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('mob-nav-uganda').classList.add('active');
+    });
+    document.getElementById('mob-nav-home').addEventListener('click', () => {
+      document.getElementById('tab-btn-hub').click();
+      document.querySelectorAll('.x-mobile-nav-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('mob-nav-home').classList.add('active');
+    });
+
+    // Sidebar privacy/pitch wiring
+    document.getElementById('nav-privacy-link').addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('btn-open-privacy').click();
+    });
+    document.getElementById('nav-pitch-link').addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('btn-open-pitch').click();
+    });
+    document.getElementById('nav-vault-link').addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('btn-open-vault').click();
+    });
+
+    // Keep right sidebar vault badge in sync
+    const observer = new MutationObserver(() => {
+      const count = document.getElementById('vault-count-badge').textContent;
+      const r = document.getElementById('vault-count-badge-r');
+      if (r) r.textContent = count;
+    });
+    const vaultBadge = document.getElementById('vault-count-badge');
+    if (vaultBadge) observer.observe(vaultBadge, { childList: true, subtree: true, characterData: true });
+  </script>
 </body>
 
 </html>
