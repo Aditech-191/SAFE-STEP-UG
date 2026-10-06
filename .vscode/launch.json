@@ -1,0 +1,80 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🚀 Launch SafeStep UG (Auto-Start Server 8080)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Start Local Web Server (8080)"
+        },
+        {
+            "name": "🚀 Launch SafeStep UG (Auto-Start Server 8085)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8085",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Start Local Web Server (8085)"
+        },
+        {
+            "name": "📱 Launch Mobile Demo View (8080 + Chrome)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}",
+            "runtimeArgs": [
+                "--window-size=440,920",
+                "--auto-open-devtools-for-tabs"
+            ]
+        },
+        {
+            "name": "Launch SafeStep UG (localhost:8085)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8085",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch SafeStep UG (localhost:8080)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch with Live Server (localhost:5500)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://127.0.0.1:5500",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch SafeStep UG via Chromium Snap (8085)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8085",
+            "webRoot": "${workspaceFolder}",
+            "runtimeExecutable": "/snap/bin/chromium"
+        },
+        {
+            "name": "Launch index.html directly (No Server)",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceFolder}/index.html",
+            "runtimeArgs": [
+                "--allow-file-access-from-files"
+            ]
+        },
+        {
+            "name": "Attach to Chrome (Port 9222)",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

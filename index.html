@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeStep UG — Privacy-First AI Safety Companion for Children</title>
+  <meta name="description"
+    content="A child-centred digital safety companion prototype detecting cyberbullying and harmful content while preserving privacy. Built for UCC Testbed Hackathon 2026.">
+
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="bg-grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-shield" id="brand-logo" title="SafeStep UG — Protecting Children Online">
+        🛡️
+        <div class="ug-badge" title="Uganda Digital Safety Initiative"></div>
+      </div>
+      <div class="brand-info">
+        <h1>SafeStep UG</h1>
+        <div class="tagline">UCC Testbed Hackathon 2026 • AI for Child Safety</div>
+      </div>
+    </div>
+
+    <div class="header-badges">
+      <div class="live-pill" id="ai-status-indicator" title="Inference running locally on device">
+        <span class="pulse-dot"></span>
+        <span>Local On-Device AI Active</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-nav btn-highlight" id="btn-start-tour" title="Launch 90-second judge walkthrough">
+        <span>🚀</span>
+        <span>90s Demo Walkthrough</span>
+      </button>
+      <button class="btn-nav" id="btn-open-vault" title="View Encrypted Local Evidence Vault">
+        <span>💾</span>
+        <span>Evidence Vault (<span id="vault-count-badge">0</span>)</span>
+      </button>
+      <button class="btn-nav" id="btn-open-privacy" title="View Privacy & Safeguarding Architecture">
+        <span>🔒</span>
+        <span>Privacy & Safeguarding</span>
+      </button>
+      <button class="btn-nav" id="btn-open-pitch" title="Open 3-Minute Hackathon Pitch Slides">
+        <span>📊</span>
+        <span>3-Min Pitch Deck</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="app-layout">
+
+    <!-- LEFT: Mobile Simulator -->
+    <section class="device-container" aria-label="Simulated Mobile Device">
+      <div class="device-controls-bar">
+        <span><strong>Fictional Scenarios:</strong></span>
+        <div class="device-scenarios-selector" id="scenario-selector">
+          <button class="scenario-chip" data-scenario="disagreement">1. Normal Debate</button>
+          <button class="scenario-chip active" data-scenario="bullying">2. Cyberbullying</button>
+          <button class="scenario-chip" data-scenario="coercion">3. Coercion / Threat</button>
+          <button class="scenario-chip" data-scenario="sexual">4. Sexualized Request</button>
+          <button class="scenario-chip" data-scenario="image">5. Image Shield Mock</button>
+        </div>
+      </div>
+
+      <!-- Smartphone Chasis -->
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <!-- Top Phone Bar -->
+          <div class="phone-status-bar">
+            <span>09:42</span>
+            <div class="notch"></div>
+            <span>LTE • 98% 🔋</span>
+          </div>
+
+          <!-- Chat App Header -->
+          <div class="chat-app-header">
+            <div class="chat-contact-meta">
+              <div class="contact-avatar" id="contact-avatar">AM</div>
+              <div>
+                <div class="contact-name" id="contact-name">Alex M. (Classmate)</div>
+                <div class="contact-status">Active now</div>
+              </div>
+            </div>
+            <div class="safestep-companion-pill" title="SafeStep is protecting this chat locally">
+              <span>🛡️ SafeStep On</span>
+            </div>
+          </div>
+
+          <!-- Chat Messages Area -->
+          <div class="chat-messages-area" id="chat-messages-feed" role="log" aria-live="polite">
+            <!-- Messages injected dynamically via app.js -->
+          </div>
+
+          <!-- Chat Input Bar -->
+          <div class="chat-input-bar">
+            <input type="text" id="custom-message-input" class="chat-input-field"
+              placeholder="Type a fictional test message..." aria-label="Test message input">
+            <button id="btn-send-message" class="btn-send" title="Send message for local AI classification">➔</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: SafeStep Companion Hub & Intelligence Console -->
+    <section class="companion-hub" aria-label="SafeStep Companion Dashboard">
+
+      <!-- Tabs Navigation -->
+      <nav class="tabs-nav" role="tablist">
+        <button class="tab-btn active" id="tab-btn-hub" role="tab" aria-selected="true" data-tab="tab-content-hub">
+          <span>🛡️</span>
+          <span>Child Safety Hub</span>
+        </button>
+        <button class="tab-btn" id="tab-btn-telemetry" role="tab" aria-selected="false"
+          data-tab="tab-content-telemetry">
+          <span>🔍</span>
+          <span>AI Telemetry & Explainability</span>
+        </button>
+        <button class="tab-btn" id="tab-btn-uganda" role="tab" aria-selected="false" data-tab="tab-content-uganda">
+          <span>🇺🇬</span>
+          <span>Uganda Safeguarding</span>
+        </button>
+      </nav>
+
+      <!-- TAB 1: Child Safety Hub -->
+      <div class="tab-pane active" id="tab-content-hub">
+        <div class="glass-card">
+          <div class="card-title-row">
+            <h2><span>🧭</span> Child-Centred Safety Companion</h2>
+            <span class="live-pill" id="companion-status-pill">Active & Watching Out</span>
+          </div>
+
+          <!-- Empathetic Guidance Banner -->
+          <div class="child-guidance-box" id="guidance-box">
+            <div class="guidance-banner">
+              <div class="avatar-empathy" id="companion-emoji">🤝</div>
+              <div class="guidance-content">
+                <h3 id="guidance-title">You're in control of your space</h3>
+                <p id="guidance-body">That message may be hurtful or unsafe. Remember: you didn't do anything wrong, and
+                  you don't have to reply. Here are safe choices you can take right now.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breathing Exercise Box (Toggled) -->
+          <div class="breathing-card" id="breathing-card">
+            <h4>Take a Calm Breath Before Deciding</h4>
+            <div class="breathing-circle" id="breathing-circle">Inhale...</div>
+            <p style="font-size: 0.75rem; color: #94a3b8;">Slow down your reaction. Bullying tries to rush you into
+              anger or fear.</p>
+          </div>
+
+          <!-- 4 User-Controlled Next-Step Actions -->
+          <div class="actions-grid">
+            <button class="action-card-btn" id="btn-action-breathe" title="Guided pause and breathing exercise">
+              <span class="action-icon">⏸️</span>
+              <span class="action-label">Pause & Breathe</span>
+              <span class="action-desc">Take 30 seconds to calm down before responding.</span>
+            </button>
+
+            <button class="action-card-btn" id="btn-action-mute" title="Mute or block this contact locally">
+              <span class="action-icon">🔕</span>
+              <span class="action-label">Mute or Block</span>
+              <span class="action-desc">Stop notifications from this contact without drama.</span>
+            </button>
+
+            <button class="action-card-btn" id="btn-action-evidence" title="Secure local evidence record">
+              <span class="action-icon">💾</span>
+              <span class="action-label">Save Local Evidence</span>
+              <span class="action-desc">Store encrypted timestamp & snippet locally on device.</span>
+            </button>
+
+            <button class="action-card-btn action-primary" id="btn-action-adult"
+              title="Reach out to a designated trusted adult">
+              <span class="action-icon">🤝</span>
+              <span class="action-label">Talk to Someone I Trust</span>
+              <span class="action-desc">Preview what to share and get advice from a trusted adult.</span>
+            </button>
+          </div>
+
+          <!-- False Alarm / Dismiss Bar & Local Vault Access -->
+          <div class="evidence-status-bar">
+            <span>Is this a mistake? Just friendly teasing?</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-ghost-sm" id="btn-false-alarm"
+                title="Mark this alert as friendly teasing to calibrate model">Dismiss as Friendly Teasing</button>
+              <button class="btn-ghost-sm" id="btn-view-vault" style="color: #38bdf8;"
+                title="View local encrypted evidence vault">📂 Open Device Vault (<span
+                  id="vault-count">0</span>)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: AI Telemetry & Explainability -->
+      <div class="tab-pane" id="tab-content-telemetry" style="display: none;">
+        <div class="glass-card">
+          <div class="card-title-row">
+            <h2><span>🔬</span> Explainable On-Device AI Telemetry</h2>
+            <span class="live-pill">Confidence & Uncertainty</span>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telemetry-tile">
+              <div class="tile-label">Classification State</div>
+              <div class="tile-value" id="telemetry-category" style="color: #f59e0b;">Bullying Concern</div>
+            </div>
+            <div class="telemetry-tile">
+              <div class="tile-label">Signal Confidence</div>
+              <div class="tile-value" id="telemetry-confidence">84.2%</div>
+            </div>
+            <div class="telemetry-tile">
+              <div class="tile-label">Uncertainty Margin</div>
+              <div class="tile-value" id="telemetry-uncertainty">± 15.8% (Advisory)</div>
+            </div>
+            <div class="telemetry-tile">
+              <div class="tile-label">Processing Location</div>
+              <div class="tile-value" style="color: #34d399;">On-Device (0 bytes sent)</div>
+            </div>
+          </div>
+
+          <!-- Token Analysis -->
+          <div class="token-inspect-box">
+            <div style="margin-bottom: 8px; color: #94a3b8; font-size: 0.78rem;">Triggered Heuristic Signals & Weighted
+              Tokens:</div>
+            <div id="telemetry-tokens-container">
+              <span class="token-tag risk-med">"useless" (+0.42)</span>
+              <span class="token-tag risk-med">"no one wants you" (+0.55)</span>
+              <span class="token-tag neutral">group project</span>
+              <span class="token-tag neutral">Alex M.</span>
+            </div>
+          </div>
+
+          <!-- Interactive Threshold Slider -->
+          <div
+            style="margin-top: 14px; padding: 12px 14px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.78rem; font-weight: 600; color: #f8fafc;">Advisory Sensitivity Threshold:</span>
+              <span id="slider-threshold-val" style="font-size: 0.78rem; color: #38bdf8; font-weight: 700;">Balanced
+                (0.75)</span>
+            </div>
+            <input type="range" id="ai-sensitivity-slider" min="0.50" max="0.95" step="0.05" value="0.75"
+              style="width: 100%; accent-color: var(--accent-cyan); cursor: pointer;">
+            <div
+              style="display: flex; justify-content: space-between; font-size: 0.66rem; color: #94a3b8; margin-top: 4px;">
+              <span>Sensitive (Catches subtle insults, higher false alarms)</span>
+              <span>Conservative (Minimizes false alarms)</span>
+            </div>
+          </div>
+
+          <!-- Ugandan Languages & Dialect Evaluation Lab -->
+          <div
+            style="margin-top: 14px; padding: 12px 14px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: var(--radius-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h4 style="font-size: 0.82rem; color: #fbbf24; display: flex; align-items: center; gap: 6px;">
+                <span>🇺🇬</span> Luganda & Dialect Evaluation Lab
+              </h4>
+              <span class="live-pill"
+                style="border-color: rgba(251, 191, 36, 0.4); color: #fde68a; font-size: 0.65rem;">Synthetic
+                Benchmark</span>
+            </div>
+            <p style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 8px;">
+              Per Hackathon Brief Section 2: <em>"Do not claim language coverage until it has been evaluated."</em> Test
+              how SafeStep explains dialect uncertainty:
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-safe"
+                title="Benign Luganda sports banter">
+                ⚽ "Lwaki tewampadde mupiira?"
+              </button>
+              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-bully"
+                title="Luganda exclusionary bullying">
+                ⚠️ "Oli musiru nnyo mu kibiina"
+              </button>
+              <button class="btn-ghost-sm dialect-sample-btn" data-dialect="luganda-threat"
+                title="Luganda financial extortion threat">
+                🚨 "Mpa emitwalo ku Mobile Money"
+              </button>
+            </div>
+          </div>
+
+          <div class="arch-callout" style="margin-top: 14px;">
+            <strong>Key Safeguarding Principle:</strong> Model scores are treated as <em>signals</em>, never as
+            definitive verdicts or proof of guilt. SafeStep UG communicates uncertainty clearly to prevent harmful false
+            alarms or panic.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Uganda Safeguarding & Context -->
+      <div class="tab-pane" id="tab-content-uganda" style="display: none;">
+        <div class="glass-card">
+          <div class="card-title-row">
+            <h2><span>🇺🇬</span> Uganda Ecosystem Integration</h2>
+            <span class="live-pill">UCC & UICT Nakawa</span>
+          </div>
+
+          <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 14px;">
+            <p style="margin-bottom: 8px;">
+              Engineered specifically for the <strong>UCC Testbed Hackathon 2026</strong> theme: <em>"Innovating safer
+                cyber spaces for children through AI"</em>.
+            </p>
+
+            <!-- Legal & Regulatory Matrix Table -->
+            <table
+              style="width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.75rem; background: rgba(15, 23, 42, 0.4); border-radius: var(--radius-sm);">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: #94a3b8;">
+                  <th style="padding: 6px 8px;">Uganda Legal Framework</th>
+                  <th style="padding: 6px 8px;">SafeStep UG Design Implementation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">Data Protection & Privacy Act 2019
+                  </td>
+                  <td style="padding: 6px 8px; color: #cbd5e1;">Strict Section 3 data minimisation: on-device
+                    evaluation, zero cloud retention.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">Computer Misuse (Amendment) Act 2022
+                  </td>
+                  <td style="padding: 6px 8px; color: #cbd5e1;">Safeguards against cyber harassment & extortion without
+                    intrusive spyware.</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 8px; font-weight: 600; color: #38bdf8;">UCC Child Online Protection (COP)</td>
+                  <td style="padding: 6px 8px; color: #cbd5e1;">Empowers child agency, dignified non-shaming alerts &
+                    Sauti 116 escalation.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="evidence-status-bar"
+            style="background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.3);">
+            <span style="color: #fde68a; font-size: 0.8rem;">📞 National Child Helpline Uganda: <strong>Toll-free
+                116</strong></span>
+            <button class="btn-ghost-sm" id="btn-call-sauti-demo"
+              style="background: rgba(251, 191, 36, 0.2); border-color: #fbbf24; color: #fff;">Open Sauti 116 Helpline
+              Simulator</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: Trusted Adult Escalation Flow (Child in Full Control)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-trusted-adult" role="dialog" aria-modal="true"
+    aria-labelledby="adult-modal-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="adult-modal-title"><span>🤝</span> Connect with a Trusted Adult</h3>
+        <button class="btn-close-modal" id="btn-close-adult-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 14px; font-size: 0.85rem; color: #94a3b8;">
+          You choose who to speak with. SafeStep UG never silently shares your chats with anyone without your clear
+          confirmation.
+        </p>
+
+        <!-- Step 1: Adult Selection -->
+        <div style="font-weight: 600; font-size: 0.82rem; margin-bottom: 8px; color: #f8fafc;">Select Who to Reach Out
+          To:</div>
+        <div class="adult-selection-list" id="adult-selection-list">
+          <div class="adult-option selected" data-adult="aunt">
+            <div class="adult-icon-badge">👩🏾</div>
+            <div class="adult-details">
+              <h4>Aunt Sarah (Designated Guardian)</h4>
+              <p>Family contact • Safe and supportive</p>
+            </div>
+          </div>
+          <div class="adult-option" data-adult="counselor">
+            <div class="adult-icon-badge">👩🏽‍🏫</div>
+            <div class="adult-details">
+              <h4>Sister Mary (School Counselor)</h4>
+              <p>St. Jude Secondary • Confidential guidance</p>
+            </div>
+          </div>
+          <div class="adult-option" data-adult="sauti">
+            <div class="adult-icon-badge">📞</div>
+            <div class="adult-details">
+              <h4>Sauti 116 Child Helpline</h4>
+              <p>Uganda National Child Support (Toll-Free 116)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Transparent Preview (No surprises!) -->
+        <div class="preview-disclosure-card">
+          <h4><span>👁️</span> Exactly What Will Be Shared (Transparent Preview)</h4>
+          <div class="preview-item">
+            <span class="preview-label">Recipient:</span>
+            <span class="preview-val" id="preview-recipient">Aunt Sarah (Guardian)</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-label">Flagged Snippet:</span>
+            <span class="preview-val" id="preview-snippet">"You're completely useless..."</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-label">Sender Name:</span>
+            <span class="preview-val">Alex M.</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-label">Time & Date:</span>
+            <span class="preview-val">Today, 09:42 AM</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-label">Child Note:</span>
+            <span class="preview-val" id="preview-child-note">"I felt uncomfortable and wanted your advice."</span>
+          </div>
+        </div>
+
+        <div class="privacy-guarantee-note">
+          <span>🔒</span>
+          <span><strong>Privacy Guarantee:</strong> Only this single message snippet is shared. None of your other
+            personal chats, photos, or browsing history will ever be accessed.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-cancel-adult-modal">Cancel</button>
+        <button class="btn-primary" id="btn-confirm-send-adult">Confirm & Send Request (Demo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: Privacy & Safeguarding Architecture
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="privacy-modal-title"><span>🔒</span> Privacy & Safeguarding Architecture</h3>
+        <button class="btn-close-modal" id="btn-close-privacy-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
+          <h4 style="color: #38bdf8; margin-bottom: 8px;">SafeStep UG vs. Invasive Surveillance</h4>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.78rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                <th style="padding: 8px 4px; color: #94a3b8;">Principle</th>
+                <th style="padding: 8px 4px; color: #f43f5e;">Invasive Spyware</th>
+                <th style="padding: 8px 4px; color: #34d399;">SafeStep UG</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 8px 4px; font-weight: 600;">Message Access</td>
+                <td style="padding: 8px 4px; color: #fda4af;">Copies all chats to cloud server</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Evaluated locally on-device</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 8px 4px; font-weight: 600;">Data Retention</td>
+                <td style="padding: 8px 4px; color: #fda4af;">Permanent central database</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Zero retention by default</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 8px 4px; font-weight: 600;">Parent Sharing</td>
+                <td style="padding: 8px 4px; color: #fda4af;">Silent forwarding without child notice</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Child selects recipient & previews snippet</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 4px; font-weight: 600;">Tone & Dignity</td>
+                <td style="padding: 8px 4px; color: #fda4af;">Punitive & alarmist alerts</td>
+                <td style="padding: 8px 4px; color: #a7f3d0;">Calm, non-shaming choices & guidance</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="color: #38bdf8; margin-bottom: 6px;">Uganda Data Protection Compliance</h4>
+          <p style="font-size: 0.8rem; margin-bottom: 12px;">
+            In full compliance with Uganda's <em>Data Protection and Privacy Act 2019</em>, SafeStep UG implements
+            strict data minimisation: no names, contacts, GPS coordinates, or unflagged message contents are logged or
+            transmitted.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-close-privacy-done">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: 3-Minute Pitch Deck (Hackathon Presentation)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-pitch" role="dialog" aria-modal="true" aria-labelledby="pitch-modal-title">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 id="pitch-modal-title"><span>📊</span> SafeStep UG — 3-Minute Pitch Deck</h3>
+        <button class="btn-close-modal" id="btn-close-pitch-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="slide-content-box" id="pitch-slide-container">
+          <!-- Slide injected dynamically -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+          <button class="btn-secondary" id="btn-prev-slide">◀ Previous Slide</button>
+          <span style="font-size: 0.8rem; color: #94a3b8;" id="slide-tracker">Slide 1 of 6</span>
+          <button class="btn-primary" id="btn-next-slide">Next Slide ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: Encrypted Local Evidence Vault
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-evidence-vault" role="dialog" aria-modal="true"
+    aria-labelledby="vault-modal-title">
+    <div class="modal-container" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 id="vault-modal-title"><span>💾</span> Encrypted Local Evidence Vault</h3>
+        <button class="btn-close-modal" id="btn-close-vault-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px;">
+          <p style="font-size: 0.78rem; color: #94a3b8; margin: 0;">
+            Immutable incident records stored strictly in sandboxed local device storage. Zero bytes transmitted to
+            cloud.
+          </p>
+          <span class="live-pill"
+            style="color: #34d399; font-size: 0.68rem; border-color: rgba(52, 211, 153, 0.3); white-space: nowrap;">
+            🔒 Sandboxed On-Device
+          </span>
+        </div>
+
+        <div id="vault-items-container" class="vault-items-list">
+          <!-- Dynamically populated or empty state -->
+        </div>
+
+        <div class="privacy-guarantee-note" style="margin-top: 14px;">
+          <span>🛡️</span>
+          <span><strong>Chain-of-Custody Integrity:</strong> Each saved record generates a SHA-256 tamper-evident hash
+            to assist safeguarding professionals and legal counselors while preserving child privacy.</span>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn-secondary" id="btn-clear-vault" style="color: #fda4af;">Clear All Vault Data</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-secondary" id="btn-export-vault">Export Sealed Case File</button>
+          <button class="btn-primary" id="btn-close-vault-done">Close Vault</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: Sauti 116 Emergency Call & Support Simulator
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-sauti-call" role="dialog" aria-modal="true" aria-labelledby="sauti-modal-title">
+    <div class="modal-container" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="sauti-modal-title"><span>📞</span> Sauti 116 Uganda Child Helpline</h3>
+        <button class="btn-close-modal" id="btn-close-sauti-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="sauti-call-card">
+          <div class="sauti-pulse-avatar">📞</div>
+          <h4 style="color: #fbbf24; font-size: 1.05rem; margin-bottom: 4px;">Connected to Sauti 116 (Toll-Free)</h4>
+          <p style="font-size: 0.76rem; color: #cbd5e1;">Uganda Ministry of Gender, Labour & Social Development Child
+            Helpline</p>
+        </div>
+
+        <div class="sauti-dialog-box">
+          <div class="sauti-dialog-step">
+            <div class="sauti-icon-indicator">1</div>
+            <div>
+              <strong style="color: #fbbf24;">Counselor Reassurance:</strong>
+              <div style="color: #e2e8f0; margin-top: 2px;">"Hello, this is Sister Grace at Sauti 116. You are in a
+                safe, confidential space. Whatever has happened online, you are not in trouble and you will not lose
+                your device."</div>
+            </div>
+          </div>
+          <div class="sauti-dialog-step">
+            <div class="sauti-icon-indicator">2</div>
+            <div>
+              <strong style="color: #38bdf8;">Safeguarding Assessment:</strong>
+              <div style="color: #e2e8f0; margin-top: 2px;">"If someone is demanding money, threatening to share private
+                photos, or bullying you, we can step in and guide your school or family safely without exposing you."
+              </div>
+            </div>
+          </div>
+          <div class="sauti-dialog-step">
+            <div class="sauti-icon-indicator">3</div>
+            <div>
+              <strong style="color: #34d399;">Child Next Steps:</strong>
+              <div style="color: #e2e8f0; margin-top: 2px;">"Keep your evidence saved locally. Do not send any money. We
+                are here 24/7 on toll-free 116 across all telecom networks in Uganda (MTN, Airtel)."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-close-sauti-done">Done (Return to Companion)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 90-Second Walkthrough Floating Bar -->
+  <div class="walkthrough-banner" id="walkthrough-bar">
+    <span class="tour-step-counter" id="tour-counter">Step 1/5</span>
+    <span class="tour-message" id="tour-message">Fictional child receives a hurtful message in chat...</span>
+    <div class="tour-controls">
+      <button class="btn-ghost-sm" id="btn-tour-next">Next Step ➔</button>
+      <button class="btn-ghost-sm" id="btn-tour-exit" style="color: #94a3b8;">Exit</button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+
+</html>
