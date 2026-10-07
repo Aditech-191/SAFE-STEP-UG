@@ -1,0 +1,6 @@
+# SafeStep UG — Python Security and Audit Tools
+# Zero external runtime dependencies: server.py runs entirely on Python 3.12+ Standard Library
+# Tools below are used for CI/CD automated vulnerability scanning and security audits
+
+pip-audit>=2.7.3
+bandit>=1.7.10
